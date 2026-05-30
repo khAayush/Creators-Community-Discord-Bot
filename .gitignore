@@ -3,3 +3,6 @@
 
 # node modules
 node_modules
+
+# generated reaction roles data (contains server-specific IDs)
+src/data/reactionRoles.json
