@@ -1,14 +1,17 @@
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-  welcomeEmbed(member) {
+  welcomeEmbed(member, customMessage = null) {
+    const description = customMessage
+      ? customMessage
+          .replace(/{user}/g,   member.toString())
+          .replace(/{server}/g, member.guild.name)
+      : `Hey ${member}, we're glad you're here!\n\nPlease read the rules and enjoy your stay.`;
+
     return new EmbedBuilder()
       .setColor(0x5865F2)
       .setTitle(`Welcome to ${member.guild.name}! 🎉`)
-      .setDescription(
-        `Hey ${member}, we're glad you're here!\n\n` +
-        `Please read the rules and enjoy your stay.`
-      )
+      .setDescription(description)
       .setThumbnail(member.user.displayAvatarURL())
       .setFooter({ text: `Member #${member.guild.memberCount}` })
       .setTimestamp();

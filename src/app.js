@@ -47,3 +47,6 @@ for (const file of fs.readdirSync(eventsPath).filter(f => f.endsWith('.js'))) {
 }
 
 client.login(config.token);
+
+// Start the web dashboard (runs in the same process so it can use the client directly)
+require('./dashboard/server')(client);

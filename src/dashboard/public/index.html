@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Bot — Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── LOGIN PAGE ──────────────────────────────────────────────────────── -->
+  <div id="page-login" class="page hidden">
+    <div class="login-card">
+      <div class="login-logo">🤖</div>
+      <h1>Community Bot</h1>
+      <p class="login-sub">Admin Dashboard — sign in to continue</p>
+      <a href="/auth/discord" class="btn btn-discord">
+        <svg width="20" height="20" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60.1 4.9A58.5 58.5 0 0 0 45.6.8a.2.2 0 0 0-.3.1c-.6 1.1-1.3 2.6-1.8 3.7a54 54 0 0 0-16.2 0 37 37 0 0 0-1.8-3.7.2.2 0 0 0-.3-.1A58.4 58.4 0 0 0 11 4.9a.2.2 0 0 0-.1.1C1.6 19 -1 32.6.3 46.1c0 .1.1.2.2.2a58.8 58.8 0 0 0 17.7 8.9.2.2 0 0 0 .3-.1 42 42 0 0 0 3.6-5.9.2.2 0 0 0-.1-.3 38.7 38.7 0 0 1-5.5-2.6.2.2 0 0 1 0-.4l1.1-.8a.2.2 0 0 1 .2 0c11.5 5.3 24 5.3 35.4 0a.2.2 0 0 1 .2 0l1.1.8a.2.2 0 0 1 0 .4 36 36 0 0 1-5.5 2.6.2.2 0 0 0-.1.3 47 47 0 0 0 3.6 5.9c.1.1.2.1.3.1a58.6 58.6 0 0 0 17.8-8.9.2.2 0 0 0 .1-.2c1.5-15.6-2.5-29.1-10.6-41.1a.2.2 0 0 0-.1-.1ZM23.7 38c-3.5 0-6.4-3.2-6.4-7.1s2.8-7.1 6.4-7.1c3.6 0 6.5 3.2 6.4 7.1 0 3.9-2.8 7.1-6.4 7.1Zm23.7 0c-3.5 0-6.4-3.2-6.4-7.1s2.8-7.1 6.4-7.1c3.6 0 6.5 3.2 6.4 7.1 0 3.9-2.8 7.1-6.4 7.1Z" fill="currentColor"/></svg>
+        Login with Discord
+      </a>
+      <p id="login-error" class="login-error hidden"></p>
+    </div>
+  </div>
+
+  <!-- ── DASHBOARD PAGE ──────────────────────────────────────────────────── -->
+  <div id="page-dashboard" class="page hidden">
+
+    <aside class="sidebar">
+      <div class="sidebar-guild">
+        <img id="guild-icon" class="guild-icon" src="" alt="">
+        <span id="guild-name" class="guild-name"></span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-item active" data-section="overview">📊 Overview</a>
+        <a class="nav-item"        data-section="welcome"> 👋 Welcome</a>
+        <a class="nav-item"        data-section="announce">📢 Announce</a>
+        <a class="nav-item"        data-section="roles">   🎭 Roles</a>
+      </nav>
+
+      <div class="sidebar-user">
+        <img id="user-avatar" class="user-avatar" src="" alt="">
+        <span id="user-name" class="user-name"></span>
+        <a href="/auth/logout" class="btn-logout">Logout</a>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- OVERVIEW -->
+      <section id="section-overview" class="section active">
+        <h2 class="section-title">Overview</h2>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-label">Members</div><div id="stat-members" class="stat-value">—</div></div>
+          <div class="stat-card"><div class="stat-label">Text Channels</div><div id="stat-channels" class="stat-value">—</div></div>
+          <div class="stat-card"><div class="stat-label">Active Role Messages</div><div id="stat-roles" class="stat-value">—</div></div>
+        </div>
+        <div class="card info-card">
+          <h3>Quick Guide</h3>
+          <ul class="guide-list">
+            <li><strong>Welcome</strong> — pick which channel greets new members and optionally write a custom message</li>
+            <li><strong>Announce</strong> — send a formatted embed to any channel instantly</li>
+            <li><strong>Roles</strong> — post a reaction-role picker in any channel so members can self-assign roles</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- WELCOME -->
+      <section id="section-welcome" class="section">
+        <h2 class="section-title">Welcome Message</h2>
+        <p class="section-desc">Sent automatically when a new member joins the server.</p>
+        <div class="card">
+          <form id="form-welcome">
+            <div class="form-group">
+              <label for="welcome-channel">Welcome Channel</label>
+              <select id="welcome-channel" name="channelId" required data-channels></select>
+            </div>
+            <div class="form-group">
+              <label for="welcome-message">
+                Custom Message <span class="badge">optional</span>
+              </label>
+              <textarea id="welcome-message" name="customMessage" rows="3"
+                placeholder="Welcome {user} to {server}! 🎉 Enjoy your stay.&#10;&#10;Use {user} for the member mention and {server} for the server name. Leave blank for the default embed."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn-welcome">Save Settings</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ANNOUNCE -->
+      <section id="section-announce" class="section">
+        <h2 class="section-title">Send Announcement</h2>
+        <p class="section-desc">Post a formatted announcement embed to any channel.</p>
+        <div class="card">
+          <form id="form-announce">
+            <div class="form-group">
+              <label for="announce-channel">Target Channel</label>
+              <select id="announce-channel" name="channelId" required data-channels></select>
+            </div>
+            <div class="form-group">
+              <label for="announce-title">Title</label>
+              <input type="text" id="announce-title" name="title" placeholder="e.g. Community Game Night" required maxlength="256">
+            </div>
+            <div class="form-group">
+              <label for="announce-message">Message</label>
+              <textarea id="announce-message" name="message" rows="5"
+                placeholder="Write your announcement here..." required maxlength="4000"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn-announce">Send Announcement</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ROLES -->
+      <section id="section-roles" class="section">
+        <h2 class="section-title">Reaction Roles</h2>
+        <p class="section-desc">Post a role-selection message so members can self-assign roles.</p>
+
+        <div class="card">
+          <h3>Configured Roles</h3>
+          <p class="hint">To add/change roles, edit <code>config.js</code> and update <code>.env</code> with role IDs.</p>
+          <div id="roles-configured"></div>
+        </div>
+
+        <div class="card">
+          <h3>Post Role Picker</h3>
+          <form id="form-roles">
+            <div class="form-group">
+              <label for="roles-channel">Channel</label>
+              <select id="roles-channel" name="channelId" required data-channels></select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn-roles">Post Role Selection Message</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Active Role Messages</h3>
+          <div id="roles-active"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

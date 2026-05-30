@@ -10,6 +10,15 @@ module.exports = {
   welcomeChannelId:     process.env.WELCOME_CHANNEL_ID,
   announcementChannelId: process.env.ANNOUNCEMENT_CHANNEL_ID,
 
+  // ── Dashboard ────────────────────────────────────────────────────────────
+  clientSecret:          process.env.CLIENT_SECRET,
+  dashboardSecret:       process.env.DASHBOARD_SECRET || 'change_this_in_production',
+  dashboardPort:         parseInt(process.env.DASHBOARD_PORT) || 3000,
+  dashboardCallbackUrl:  process.env.DASHBOARD_CALLBACK_URL || 'http://localhost:3000/auth/callback',
+  // Comma-separated Discord user IDs allowed to log into the dashboard.
+  // Leave blank to allow ANY Discord user (not recommended for production).
+  adminIds:              process.env.ADMIN_IDS || '',
+
   // ── Reaction role definitions ────────────────────────────────────────────
   // Add/remove entries here, then re-run /setup-reaction-roles in your server.
   reactionRoles: [
